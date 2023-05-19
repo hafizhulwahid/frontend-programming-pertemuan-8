@@ -13,11 +13,11 @@ function AddMovieForm(props) {
     type: "",
   });
 
-  // const [formDataError, setFormDataError] = useState({
-  //   titleError: false,
-  //   dateError: false,
-  //   pictError: false,
-  // });
+  const [formDataError, setFormDataError] = useState({
+    titleError: false,
+    dateError: false,
+    pictError: false,
+  });
 
   function handleChange(event) {
     // console.log(event.target.name, event.target.value);
@@ -26,11 +26,6 @@ function AddMovieForm(props) {
     // console.log({ 
     //   ...formData,
     //   [name] : value
-    // });
-
-    // setFormDataError({
-    //   ...formDataError,
-    //   [name] : value,
     // });
 
     setFormData({
@@ -63,26 +58,37 @@ function AddMovieForm(props) {
   ];
 
   const { title, date, pict, type } = formData;
-  // const { titleError, dateError, pictError} = formDataError;
+  const { titleError, dateError, pictError} = formDataError;
 
   function validate() {
     if (title == "") {
-      setIsTitleError(true);
+      setFormDataError({
+        ...formDataError,
+        titleError : true,
+      });
       return false;
     } else if (date == "") {
-      setIsTitleError(false);
-      setIsDateError(true);
-      setIsPictError(false)
+      setFormDataError({
+        ...formDataError,
+        titleError : false,
+        dateError : true,
+      });
       return false;
     } else if (pict == "") {
-      setIsTitleError(false);
-      setIsDateError(false);
-      setIsPictError(true);
+      setFormDataError({
+        ...formDataError,
+        titleError : false,
+        dateError : false,
+        pictError : true,
+      });
       return false;
     }else {
-      setIsTitleError(false);
-      setIsDateError(false);
-      setIsPictError(false);
+      setFormDataError({
+        ...formDataError,
+        titleError : false,
+        dateError : false,
+        pictError : false,
+      });
       return true;
     }
   }
@@ -122,13 +128,13 @@ function AddMovieForm(props) {
           <form onSubmit={handleSubmit}>
             <label className={styles.form__label} for="title">Title</label><br />
             <input className={styles.form__input} type="text" id="title" value={title} name="title" onChange={handleChange} /><br />
-            {isTitleError && <Alert>Title Wajib Di Isi !</Alert>} 
+            {titleError && <Alert>Title Wajib Di Isi !</Alert>} 
             <label className={styles.form__label} for="year">Year</label><br />
             <input className={styles.form__input} type="text" id="date" value={date} name="date" onChange={handleChange} /><br />
-            {isDateError ? <p>Tahun Wajib Di Isi !</p> : "" } 
+            {dateError ? <p>Tahun Wajib Di Isi !</p> : "" } 
             <label className={styles.form__label} for="link">Link Gambar</label><br />
             <input className={styles.form__input} type="text" id="pict" value={pict} name="pict" onChange={handleChange} /><br />
-            {isPictError && <Alert>Link Gambar Wajib Di Isi !</Alert>} 
+            {pictError && <Alert>Link Gambar Wajib Di Isi !</Alert>} 
             <label className={styles.form__label} for="link">Type Movie</label><br />
             <select className={styles.form__select} name="type" onChange={handleChange}>
             {options.map((option) => (
